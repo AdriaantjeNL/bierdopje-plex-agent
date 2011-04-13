@@ -2,14 +2,14 @@ NAME = 'Bierdopje'
 
 API_URL = 'http://api.bierdopje.com/' + Prefs['ApiKey'] + '/'
 SHOW_URL = API_URL + 'GetShowByTVDBID/%s'
-SUBTITLE_URL = API_URL + 'GetAllSubsFor/%s/%s/%s/nl'
+SUBTITLE_URL = API_URL + 'GetAllSubsFor/%s/%s/%s/' + Prefs['lang']
 
 def Start():
   HTTP.CacheTime = CACHE_1HOUR
 
 class BierdopjeAgentTV(Agent.TV_Shows):
   name = 'Bierdopje'
-  languages = [Locale.Language.Dutch]
+  languages = [Locale.Language.English]
   primary_provider = False
   contributes_to = ['com.plexapp.agents.thetvdb']
 
@@ -55,4 +55,4 @@ class BierdopjeAgentTV(Agent.TV_Shows):
     Log('*** We will use this subtitle: %s' % subtitle.xpath('filename')[0].text)
     download_link = subtitle.xpath('downloadlink')[0].text
     # We use the .srt extension by default. There is no way to see what we get back from the api.
-    part.subtitles[Locale.Language.Dutch][download_link] = Proxy.Media(HTTP.Request(download_link), ext='srt')
+    part.subtitles[Locale.Language.English][download_link] = Proxy.Media(HTTP.Request(download_link), ext='srt')
